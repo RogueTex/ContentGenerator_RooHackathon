@@ -62,7 +62,7 @@ npm install
 In the `backend` directory, create a `.env` file and add your Requesty API key. If you don't have one, the app will run in **Demo Mode** with sample data.
 
 ```
-REQUESTY_API_KEY=your_actual_requesty_key_here
+GOOGLE_GEMINI_API_KEY=your_google_gemini_api_key_here
 PORT=3001
 ```
 
@@ -108,10 +108,10 @@ npm run dev
 
 ## 🔑 **API Configuration**
 
-1. Get your Google Gemini API key from [Google AI Studio](https://ai.google.dev/)
-2. Add it to your `.env` file:
+1. Get your Requesty API key from [Requesty](https://requesty.ai/)
+2. Add it to your `.env` file in the `backend` directory:
 ```env
-GOOGLE_GEMINI_API_KEY=AIzaSyAImbZSQ8Re5RkgvW66vW_d-4ZVmRWeaBM
+REQUESTY_API_KEY=your_actual_requesty_key_here
 PORT=3001
 ```
 
@@ -151,7 +151,7 @@ This application is ready for deployment on:
 
 ### Environment Variables for Production:
 ```env
-GOOGLE_GEMINI_API_KEY=your_production_api_key
+REQUESTY_API_KEY=your_production_api_key
 PORT=3001
 NODE_ENV=production
 ```
@@ -159,7 +159,7 @@ NODE_ENV=production
 ## 🏆 **Hackathon Submission Highlights**
 
 ### **Innovation Score: 10/10**
-- Cutting-edge AI integration with Google Gemini
+- Cutting-edge AI integration with Requesty (powered by Google Gemini)
 - Advanced prompt engineering for superior content quality
 - Smart content management and history features
 
@@ -183,7 +183,7 @@ NODE_ENV=production
 For questions or issues during the hackathon demo:
 - Check the console for any API key errors
 - Ensure both backend and frontend servers are running
-- Verify your Google Gemini API key is valid
+- Verify your Requesty API key is valid
 
 ---
 

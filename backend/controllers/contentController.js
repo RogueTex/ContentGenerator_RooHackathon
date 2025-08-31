@@ -25,7 +25,7 @@ const generateContent = async (req, res) => {
     console.log('Generating content with Requesty API for:', topic);
 
     // Requesty API call - Using a more generic endpoint URL
-    const response = await axios.post('https://api.openai.com/v1/chat/completions', {
+    const response = await axios.post('https://api.requesty.com/v1/chat/completions', {
       model: 'gpt-3.5-turbo',
       messages: [
         {
@@ -55,6 +55,73 @@ const generateContent = async (req, res) => {
     console.log('Falling back to demo mode due to API error');
     const demoContent = generateDemoContent(contentType, topic);
     res.status(200).json({ generatedContent: demoContent });
+  }
+};
+
+const generateCampaign = async (req, res) => {
+  const { topic } = req.body;
+  try {
+    if (!topic) {
+      return res.status(400).json({ error: 'Topic is required for campaign generation.' });
+    }
+
+    const apiKey = process.env.REQUESTY_API_KEY;
+    if (!apiKey || apiKey === 'your_requesty_key_here' || apiKey === 'demo_mode') {
+      console.log(`Demo mode: Generating demo campaign for ${topic}`);
+      const demoCampaign = generateDemoCampaign(topic);
+      return res.status(200).json({ generatedCampaign: demoCampaign });
+    }
+
+    const prompt = `
+      Generate a one-week social media campaign plan for the topic: "${topic}".
+      The plan should include:
+      1. Three distinct social media post ideas for Twitter/X. For each post, provide the full text and 3 relevant hashtags.
+      2. One blog post idea, including a catchy title and a brief 2-3 sentence summary.
+      3. One email subject line for a promotional newsletter.
+
+      Return the response as a valid JSON object with the following structure:
+      {
+        "socialPosts": [
+          {"post": "...", "hashtags": ["...", "...", "..."]},
+          {"post": "...", "hashtags": ["...", "...", "..."]},
+          {"post": "...", "hashtags": ["...", "...", "..."]}
+        ],
+        "blogIdea": {"title": "...", "summary": "..."},
+        "emailSubject": "..."
+      }
+    `;
+
+    console.log('Generating campaign with Requesty API for:', topic);
+
+    const response = await axios.post('https://api.requesty.com/v1/chat/completions', {
+      model: 'gpt-3.5-turbo',
+      messages: [
+        {
+          role: 'user',
+          content: prompt
+        }
+      ],
+      max_tokens: 2048,
+      temperature: 0.7,
+    }, {
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const generatedText = response.data.choices[0].message.content;
+    console.log(`Successfully generated campaign for ${topic}`);
+    
+    // Attempt to parse the JSON from the response
+    const generatedCampaign = JSON.parse(generatedText);
+    res.status(200).json({ generatedCampaign });
+
+  } catch (error) {
+    console.error('Error generating campaign with Requesty:', error.response?.data || error.message);
+    console.log('Falling back to demo mode for campaign generation');
+    const demoCampaign = generateDemoCampaign(topic);
+    res.status(200).json({ generatedCampaign: demoCampaign });
   }
 };
 
@@ -381,6 +448,22 @@ This demo showcases the power of AI-driven content generation, delivering result
 Contact us to learn more about how our full AI content generation platform can transform your content creation process!`;
 };
 
+const generateDemoCampaign = (topic) => {
+  return {
+    socialPosts: [
+      { post: `🚀 Just launched our new guide on ${topic}! Discover the key strategies to succeed. #Demo`, hashtags: [`#${topic.replace(/\s+/g, '')}`, '#Innovation', '#Guide'] },
+      { post: `What's the biggest challenge when it comes to ${topic}? We'd love to hear your thoughts! #Demo`, hashtags: [`#${topic.replace(/\s+/g, '')}`, '#Discussion', '#Community'] },
+      { post: `Did you know? Mastering ${topic} can boost your results by over 50%. Learn how in our latest article. #Demo`, hashtags: [`#${topic.replace(/\s+/g, '')}`, '#ProTip', '#Success'] }
+    ],
+    blogIdea: {
+      title: `The Ultimate 2025 Guide to ${topic}`,
+      summary: `A deep dive into the core principles of ${topic}. This guide covers everything from the basics to advanced techniques for professionals.`
+    },
+    emailSubject: `Unlock the Secrets of ${topic} with Our New Guide!`
+  };
+};
+
 module.exports = {
   generateContent,
+  generateCampaign,
 };
