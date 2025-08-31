@@ -1,16 +1,6 @@
 import React, { useState } from 'react';
 
-const ContentGenera      const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
-      const response = await fetch(`${API_URL}/api/content/generate`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          contentType: enhancedPrompt,
-          topic: topic,
-        }),
-      });nContentGenerated }) => {
+const ContentGenerator = ({ onContentGenerated }) => {
   const [contentType, setContentType] = useState('');
   const [topic, setTopic] = useState('');
   const [tone, setTone] = useState('professional');
@@ -58,7 +48,6 @@ const ContentGenera      const API_URL = import.meta.env.VITE_API_BASE_URL || 'h
     setGeneratedContent('');
 
     try {
-      // Enhanced prompt with more specificity
       const enhancedPrompt = `Create a ${length} ${contentType.replace('-', ' ')} about "${topic}" with a ${tone} tone. 
       
       Requirements:
@@ -81,23 +70,25 @@ const ContentGenera      const API_URL = import.meta.env.VITE_API_BASE_URL || 'h
       });
 
       if (!response.ok) {
-        throw new Error('Failed to generate content');
+        const errorData = await response.json().catch(() => ({})); // Catch if JSON parsing fails
+        throw new Error(errorData.error || `Request failed with status ${response.status}`);
       }
 
       const data = await response.json();
       setGeneratedContent(data.generatedContent);
       
-      // Pass the generated content to parent component
-      onContentGenerated({
-        contentType: contentType,
-        topic: topic,
-        tone: tone,
-        length: length,
-        content: data.generatedContent,
-      });
+      if (onContentGenerated) {
+        onContentGenerated({
+          contentType: contentType,
+          topic: topic,
+          tone: tone,
+          length: length,
+          content: data.generatedContent,
+        });
+      }
 
     } catch (err) {
-      setError('Failed to generate content. Please try again.');
+      setError(err.message || 'An unknown error occurred. Please try again.');
       console.error('Error:', err);
     } finally {
       setIsLoading(false);
@@ -107,7 +98,7 @@ const ContentGenera      const API_URL = import.meta.env.VITE_API_BASE_URL || 'h
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(generatedContent);
-      // You could add a toast notification here
+      // You could add a toast notification here for better UX
     } catch (err) {
       console.error('Failed to copy text: ', err);
     }
@@ -128,7 +119,7 @@ const ContentGenera      const API_URL = import.meta.env.VITE_API_BASE_URL || 'h
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Input Form */}
           <div className="space-y-8">
-            <div className="content-card p-8">
+            <div className="p-8">
               <form onSubmit={generateContent} className="space-y-6">
                 {/* Content Type Selection */}
                 <div>
@@ -250,7 +241,7 @@ const ContentGenera      const API_URL = import.meta.env.VITE_API_BASE_URL || 'h
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                       </svg>
-                      <span>Generating<span className="loading-dots"></span></span>
+                      <span>Generating...</span>
                     </span>
                   ) : (
                     <span className="flex items-center justify-center space-x-2">
@@ -267,7 +258,7 @@ const ContentGenera      const API_URL = import.meta.env.VITE_API_BASE_URL || 'h
 
           {/* Generated Content */}
           <div className="space-y-6">
-            <div className="content-card p-8">
+            <div className="p-8">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-xl font-semibold text-gray-900">Generated Content</h3>
                 {generatedContent && (
@@ -290,7 +281,7 @@ const ContentGenera      const API_URL = import.meta.env.VITE_API_BASE_URL || 'h
                       <div className="w-16 h-16 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin"></div>
                     </div>
                     <p className="text-gray-500 text-center">
-                      AI is crafting your content<span className="loading-dots"></span>
+                      AI is crafting your content...
                     </p>
                   </div>
                 ) : generatedContent ? (
