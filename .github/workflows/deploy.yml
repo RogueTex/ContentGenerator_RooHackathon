@@ -19,11 +19,11 @@ jobs:
           node-version: '18' # Use Node.js version 18
 
       - name: Install dependencies
-        working-directory: ./ai-content-generator/frontend
+        working-directory: ai-content-generator/frontend
         run: npm install
 
       - name: Build application
-        working-directory: ./ai-content-generator/frontend
+        working-directory: ai-content-generator/frontend
         run: npm run build
         env:
           VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
@@ -32,4 +32,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./ai-content-generator/frontend/dist
+          publish_dir: ai-content-generator/frontend/dist
