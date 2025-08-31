@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 
 const ContentHistory = ({ generatedContents, onBack }) => {
   const [selectedContent, setSelectedContent] = useState(null);
@@ -256,8 +257,8 @@ const ContentHistory = ({ generatedContents, onBack }) => {
                       </div>
 
                       <div className="prose prose-sm max-w-none mb-6">
-                        <div className="bg-gray-50 rounded-lg p-4 max-h-96 overflow-y-auto whitespace-pre-wrap text-sm">
-                          {selectedContent.content || ''}
+                        <div className="bg-gray-50 rounded-lg p-4 max-h-96 overflow-y-auto text-sm">
+                          <ReactMarkdown>{selectedContent.content || ''}</ReactMarkdown>
                         </div>
                       </div>
 

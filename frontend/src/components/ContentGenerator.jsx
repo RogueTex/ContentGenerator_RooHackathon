@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 
 const ContentGenerator = ({ onContentGenerated }) => {
   const [contentType, setContentType] = useState('');
@@ -313,7 +314,7 @@ Generate the content now.`;
                 ) : generatedContent ? (
                   <div className="prose prose-lg max-w-none">
                     <div className="bg-gray-50 rounded-lg p-6 whitespace-pre-wrap font-serif leading-relaxed text-gray-800">
-                      {generatedContent}
+                      <ReactMarkdown>{generatedContent}</ReactMarkdown>
                     </div>
                   </div>
                 ) : (
