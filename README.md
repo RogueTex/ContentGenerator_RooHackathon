@@ -1,103 +1,86 @@
-# 🚀 AI Content Generator - Roo Hackathon 2025
+# 🚀 AI Content Generator - Roo Hackathon 2025 Submission
 
-> **Winner-ready AI-powered content generation platform built with React, Node.js, and Google Gemini AI**
+> **An AI-powered content generation platform built for the Roo Hackathon 2025. Powered by Requesty.**
 
 [![React](https://img.shields.io/badge/React-18.2.0-blue.svg)](https://reactjs.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-Latest-green.svg)](https://nodejs.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.3.3-blue.svg)](https://tailwindcss.com/)
-[![Requesty](https://img.shields.io/badge/Requesty-API-orange.svg)](https://requesty.com/)
+[![Requesty](https://img.shields.io/badge/Powered_by-Requesty-orange.svg)](https://requesty.com/)
 
-## 🎯 **Hackathon-Ready Features**
+## 🎯 **Project Overview**
 
-### ✨ **Core Features**
-- **8+ Content Types**: Blog posts, social media, emails, product descriptions, press releases, ad copy, video scripts, and landing pages
-- **Advanced AI Customization**: Professional, casual, enthusiastic, informative, persuasive, and humorous tones
-- **Smart Length Control**: Short (100-200 words), medium (300-500 words), long (600-1000 words)
-- **Real-time Generation**: Lightning-fast content creation powered by Requesty AI
-- **Content History Management**: Track, search, filter, and export all generated content
-- **One-click Copy & Export**: Instant clipboard copy and file download functionality
+This project is a full-stack AI content generator built for the Roo Hackathon 2025. It leverages the power of the Requesty API to generate high-quality content across various formats and styles. The goal was to build a polished, functional, and impressive application within the hackathon timeframe.
 
-### 🎨 **UI/UX Excellence**
-- **Modern Design**: Beautiful gradient backgrounds, smooth animations, and responsive layout
-- **Interactive Elements**: Hover effects, loading states, and smooth transitions
-- **Mobile-First**: Fully responsive design that works on all devices
-- **Intuitive Navigation**: Tab-based interface with floating navigation pills
-- **Professional Branding**: Polished visual identity perfect for demos
+## ✨ **Core Features**
 
-### 🔧 **Technical Excellence**
-- **Full-Stack Architecture**: React frontend + Node.js/Express backend
-- **API Integration**: Robust Google Gemini AI integration with error handling
-- **Performance Optimized**: Fast loading, efficient state management
-- **Production Ready**: Environment configuration, error boundaries, and validation
+- **8+ Content Types**: Generate blog posts, social media updates, emails, and more.
+- **Powered by Requesty**: Utilizes a powerful AI backend for fast and creative content generation.
+- **Content History**: All generated content is saved locally, allowing users to review and reuse past generations.
+- **Sleek UI**: A modern, responsive interface built with React and Tailwind CSS, designed for a great user experience.
+- **One-click Copy**: Easily copy generated content to your clipboard.
 
-## 🚀 **Quick Start**
+## �️ **Tech Stack**
+
+- **Frontend**: React, Vite, Tailwind CSS
+- **Backend**: Node.js, Express.js
+- **AI**: Requesty API (via OpenAI compatible endpoint)
+
+## 🚀 **Getting Started**
+
+To run this project locally, follow these steps:
 
 ### Prerequisites
 - Node.js (v18 or higher)
-- npm or yarn
-- Requesty API key ([Get it here](https://requesty.com/))
+- npm
 
-### 1. **Clone & Setup**
+### 1. **Clone the Repository**
 ```bash
-git clone <your-repo-url>
-cd ai-content-generator
+git clone https://github.com/RogueTex/ContentGenerator_RooHackathon.git
+cd ContentGenerator_RooHackathon/ai-content-generator
 ```
 
-### 2. **Backend Setup**
+### 2. **Install Dependencies**
 ```bash
+# Install backend dependencies
 cd backend
 npm install
 
-# Create environment file
-cp .env.example .env
-# Edit .env and add your Requesty API key:
-# REQUESTY_API_KEY=your_actual_requesty_key_here
-# PORT=3001
-```
-
-### 3. **Frontend Setup**
-```bash
+# Install frontend dependencies
 cd ../frontend
 npm install
 ```
 
+### 3. **Configure Environment**
+In the `backend` directory, create a `.env` file and add your Requesty API key. If you don't have one, the app will run in **Demo Mode** with sample data.
+
+```
+REQUESTY_API_KEY=your_actual_requesty_key_here
+PORT=3001
+```
+
 ### 4. **Run the Application**
 
-**Terminal 1 - Backend:**
+**Terminal 1 - Start the Backend:**
 ```bash
 cd backend
 npm run dev
 # Server will run on http://localhost:3001
 ```
 
-**Terminal 2 - Frontend:**
+**Terminal 2 - Start the Frontend:**
 ```bash
 cd frontend
 npm run dev
-# Application will run on http://localhost:5174
+# Application will be available at http://localhost:5174
 ```
 
-### 5. **Access the App**
-Open your browser and navigate to `http://localhost:5174`
+## 🏆 **Why This Project Stands Out**
 
-## 📱 **Demo Screenshots**
+- **Completeness**: A fully functional full-stack application built from scratch.
+- **Polish**: A high degree of UI/UX polish, including a responsive design and smooth animations.
+- **Solid Technical Foundation**: Demonstrates a robust architecture with a decoupled frontend and backend, and effective integration with a third-party AI service.
+- **Hackathon Spirit**: A project that is both ambitious and successfully executed, showcasing rapid development and a focus on creating a valuable tool.
 
-### Homepage & Generator
-- Beautiful hero section with animated elements
-- Intuitive content type selection with icons
-- Advanced customization options (tone, length, style)
-- Real-time content generation with loading animations
-
-### Content History
-- Comprehensive history management
-- Search and filter functionality
-- Content preview and export options
-- Word count and generation statistics
-
-## 🏆 **Why This Will Win the Hackathon**
-
-### **1. Complete Feature Set**
-- ✅ Full-stack application with modern tech stack
 - ✅ Multiple content types for different use cases
 - ✅ Advanced AI customization options
 - ✅ Professional UI/UX design
