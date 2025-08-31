@@ -1,30 +1,158 @@
 // Requesty API integration for Roo Hackathon
 const axios = require('axios');
 
+// Helper function to extract keywords from a topic
+const getKeywords = (text) => {
+  const stopWords = new Set(['a', 'an', 'the', 'and', 'or', 'but', 'for', 'nor', 'on', 'in', 'at', 'to', 'from', 'of', 'with', 'by', 'about', 'as', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'this', 'that', 'these', 'those', 'it', 'its', 'he', 'she', 'they', 'we', 'you', 'your', 'my', 'our', 'their', 'his', 'her', 'itself', 'himself', 'herself', 'themselves', 'ourselves', 'yourselves', 'myself', 'i', 'me', 'us', 'them', 'what', 'which', 'who', 'whom', 'whose', 'where', 'when', 'why', 'how', 'any', 'some', 'such', 'no', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 'can', 'will', 'just', 'don', 'should', 'now']);
+  const words = text.toLowerCase().split(/\s+/).filter(word => word.length > 2 && !stopWords.has(word));
+  return [...new Set(words)].join(', '); // Remove duplicates and join
+};
+
+const promptTemplates = {
+  'blog-post': (topic, keywords) => `As a top-tier content strategist, generate a detailed and insightful blog post.
+
+- **Main Topic:** "${topic}"
+- **Key Concepts or Keywords:** ${keywords || topic}
+
+Guidelines:
+- Craft a compelling introduction that hooks readers.
+- Structure with clear H2/H3 headings for each key idea.
+- Use bullet points, examples, or mini-case studies for clarity.
+- Make the writing engaging, authoritative, and SEO-friendly.
+- End with a strong conclusion and actionable takeaways.
+- Ensure all content is highly relevant to the topic and key concepts.
+
+Produce a blog post that would stand out to both judges and users.`,
+
+  'social-media-post': (topic, keywords) => `As an expert social media copywriter, write an engaging, shareable post.
+
+- **Platform:** [Specify if known, e.g. Twitter, LinkedIn, Instagram]
+- **Topic/Campaign:** "${topic}"
+- **Key Hashtags/Keywords:** ${keywords || topic}
+
+Guidelines:
+- Craft a catchy hook or question, optimized for engagement.
+- Make the copy concise, impactful, and audience-appropriate.
+- Weave in current trends, emojis, and 1-3 relevant hashtags.
+- Content should be snappy, memorable, and drive action (like, share, comment).
+- Context must be derived from the topic and only target relevant keywords.
+
+Deliver a post that would capture attention on social media.`,
+
+  'email-newsletter': (topic, keywords) => `As a professional email marketer, create a high-performing newsletter segment.
+
+- **Topic/Primary Subject:** "${topic}"
+- **Key Points/Keywords:** ${keywords || topic}
+
+Instructions:
+- Start with a personalized greeting and a strong subject line.
+- Organize with introductory paragraph, main content in bullets or sections, and a clear call-to-action.
+- Make tone friendly, informative, and trustworthy.
+- Optimize for readability and engagement.
+- Tailor content closely to the topic and keywords for maximum relevance.
+
+Generate the email body and a recommended subject line.`,
+
+  'product-description': (topic, keywords) => `As a seasoned e-commerce copywriter, craft a persuasive product description.
+
+- **Product Name/Topic:** "${topic}"
+- **Unique Features/Keywords:** ${keywords || topic}
+
+Guidelines:
+- Create a standout headline and opening line.
+- Emphasize unique selling points and benefits, not just features.
+- Target the needs and desires of the ideal buyer.
+- Format with short, impactful sentences, highlights, or lists.
+- Ensure every line relates directly to the product context.
+
+Write a description that excites and convinces customers to purchase.`,
+
+  'press-release': (topic, keywords) => `As a professional PR specialist, draft a newsworthy press release.
+
+- **Announcement Topic:** "${topic}"
+- **Main Points/Keywords:** ${keywords || topic}
+
+Instructions:
+- Follow classic press release structure (headline, dateline, introduction, body, quote, boilerplate).
+- Prioritize clarity, impact, and newsworthiness.
+- Include a quote from a fictional company exec or spokesperson.
+- Highlight why this matters and who benefits.
+- Focus solely on the context of the topic/keywords.
+
+Generate the press release for a professional audience.`,
+
+  'ad-copy': (topic, keywords) => `As a creative ad copywriter, generate a high-converting advertisement.
+
+- **Product/Service/Topic:** "${topic}"
+- **Key Selling Points/Keywords:** ${keywords || topic}
+
+Directions:
+- Start with a bold headline or question.
+- Deliver a concise, memorable pitch with a clear call to action.
+- Use emotional triggers or urgency where appropriate.
+- Format for quick reading (short lines, highlights).
+- Context and keywords should shape the ad’s unique appeal.
+
+Write ad copy that grabs attention and motivates immediate action.`,
+
+  'video-script': (topic, keywords) => `As a talented scriptwriter, produce a compelling video script segment.
+
+- **Video Theme/Topic:** "${topic}"
+- **Core Message/Keywords:** ${keywords || topic}
+
+Script guidelines:
+- Open with a strong hook.
+- Segue into key points, using a conversational, audience-focused tone.
+- Include one or two brief lines for on-screen visuals or directions.
+- Script should engage, inform, and drive the viewer to action.
+- Ensure every line is contextually tailored to the input topic/key concepts.
+
+Generate the script for a 1-2 minute video.`,
+
+  'landing-page': (topic, keywords) => `As an expert in landing page optimization, write persuasive landing page copy.
+
+- **Offer/Topic:** "${topic}"
+- **Core Benefits/Keywords:** ${keywords || topic}
+
+Instructions:
+- Write a bold headline, subheadline, and 2-3 high-impact sections.
+- Use concise, benefit-driven language.
+- Include bullet points, testimonials (fictional is fine), and a call-to-action.
+- Copy should flow logically, leading visitors to take the target action.
+- All content must closely relate to the topic and keywords.
+
+Produce conversion-oriented landing page content.`
+};
+
 const generateContent = async (req, res) => {
-  const { contentType, topic } = req.body; // Move this outside try block for better scope
+  const { contentType, topic } = req.body;
   
   try {
     if (!contentType || !topic) {
       return res.status(400).json({ error: 'Content type and topic are required.' });
     }
 
-    // Check if we're in demo mode (no valid API key)
     const apiKey = process.env.REQUESTY_API_KEY;
     if (!apiKey || apiKey === 'your_requesty_key_here' || apiKey === 'demo_mode') {
-      // Return demo content for hackathon presentation
       const demoContent = generateDemoContent(contentType, topic);
       console.log(`Demo mode: Generated ${demoContent.length} characters of demo content`);
       return res.status(200).json({ generatedContent: demoContent });
     }
 
-    // Enhanced prompt that includes the frontend specifications
-    const prompt = contentType.includes('Requirements:') ? contentType : 
-      `Generate a ${contentType} about "${topic}". Make it engaging, well-structured, and professional.`;
+    const keywords = getKeywords(topic);
+    let prompt;
+
+    if (contentType.includes('Requirements:')) {
+      prompt = contentType; // Use as-is if it's a direct requirement
+    } else if (promptTemplates[contentType]) {
+      prompt = promptTemplates[contentType](topic, keywords);
+    } else {
+      // Fallback for unknown content types
+      prompt = `Generate a ${contentType} about "${topic}". Make it engaging, well-structured, and professional. Key concepts: ${keywords || topic}.`;
+    }
 
     console.log('Generating content with Requesty API for:', topic);
 
-    // Requesty API call - Using a more generic endpoint URL
     const response = await axios.post('https://api.requesty.com/v1/chat/completions', {
       model: 'gpt-3.5-turbo',
       messages: [
@@ -43,15 +171,10 @@ const generateContent = async (req, res) => {
     });
 
     const generatedText = response.data.choices[0].message.content;
-
-    // Log successful generation
     console.log(`Successfully generated ${generatedText.length} characters of content with Requesty`);
-
     res.status(200).json({ generatedContent: generatedText });
   } catch (error) {
     console.error('Error generating content with Requesty:', error.response?.data || error.message);
-    
-    // Provide more specific error messages and always fallback to demo
     console.log('Falling back to demo mode due to API error');
     const demoContent = generateDemoContent(contentType, topic);
     res.status(200).json({ generatedContent: demoContent });
@@ -72,14 +195,20 @@ const generateCampaign = async (req, res) => {
       return res.status(200).json({ generatedCampaign: demoCampaign });
     }
 
-    const prompt = `
-      Generate a one-week social media campaign plan for the topic: "${topic}".
-      The plan should include:
-      1. Three distinct social media post ideas for Twitter/X. For each post, provide the full text and 3 relevant hashtags.
-      2. One blog post idea, including a catchy title and a brief 2-3 sentence summary.
-      3. One email subject line for a promotional newsletter.
+    const keywords = getKeywords(topic);
 
-      Return the response as a valid JSON object with the following structure:
+    const prompt = `
+      As a highly skilled social media strategist for a hackathon-winning AI Content Generator, your task is to create a comprehensive one-week social media campaign plan.
+      
+      Primary Topic: "${topic}"
+      Key Concepts/Keywords: ${keywords || topic}
+
+      The plan should be designed to be highly effective and engaging, suitable for a hackathon demonstration. It must include:
+      1.  **Three distinct social media post ideas for Twitter/X.** For each post, provide the full text (concise and impactful) and 3 highly relevant hashtags.
+      2.  **One compelling blog post idea.** Include a catchy, SEO-friendly title and a brief 2-3 sentence summary that highlights its value.
+      3.  **One attention-grabbing email subject line** for a promotional newsletter related to the campaign.
+
+      Return the response as a valid JSON object with the following structure. Ensure the JSON is perfectly formatted for direct parsing:
       {
         "socialPosts": [
           {"post": "...", "hashtags": ["...", "...", "..."]},

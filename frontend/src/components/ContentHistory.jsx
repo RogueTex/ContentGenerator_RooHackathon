@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 
-const ContentHistory = ({ contents, onBack }) => {
+const ContentHistory = ({ generatedContents, onBack }) => {
   const [selectedContent, setSelectedContent] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('all');
 
-  const filteredContents = contents.filter(content => {
+  const filteredContents = (generatedContents || []).filter(content => {
+    if (!content || !content.topic || !content.content) {
+      return false; // Ignore invalid content entries
+    }
     const matchesSearch = content.topic.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          content.content.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesFilter = filterType === 'all' || content.contentType === filterType;
@@ -13,6 +16,7 @@ const ContentHistory = ({ contents, onBack }) => {
   });
 
   const formatDate = (timestamp) => {
+    if (!timestamp) return 'Invalid date';
     return new Date(timestamp).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
@@ -37,6 +41,7 @@ const ContentHistory = ({ contents, onBack }) => {
   };
 
   const getContentTypeLabel = (type) => {
+    if (!type) return 'Unknown';
     return type.split('-').map(word => 
       word.charAt(0).toUpperCase() + word.slice(1)
     ).join(' ');
@@ -63,7 +68,7 @@ const ContentHistory = ({ contents, onBack }) => {
     document.body.removeChild(element);
   };
 
-  const uniqueContentTypes = [...new Set(contents.map(c => c.contentType))];
+  const uniqueContentTypes = [...new Set((generatedContents || []).map(c => c.contentType).filter(Boolean))];
 
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8">
@@ -87,12 +92,12 @@ const ContentHistory = ({ contents, onBack }) => {
           </button>
         </div>
 
-        {contents.length === 0 ? (
+        {(generatedContents || []).length === 0 ? (
           <div className="content-card p-12 text-center">
             <div className="w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <svg className="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
+                </svg>
             </div>
             <h3 className="text-2xl font-semibold text-gray-900 mb-2">No Content Yet</h3>
             <p className="text-gray-600 mb-6">Start generating content to see your history here.</p>
@@ -139,12 +144,12 @@ const ContentHistory = ({ contents, onBack }) => {
               </div>
               <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-200">
                 <p className="text-sm text-gray-600">
-                  {filteredContents.length} of {contents.length} items
+                  {filteredContents.length} of {(generatedContents || []).length} items
                 </p>
                 <div className="flex items-center space-x-2">
                   <span className="text-sm text-gray-600">Total words:</span>
                   <span className="text-sm font-semibold text-primary-600">
-                    {contents.reduce((sum, content) => sum + (content.content.split(' ').length || 0), 0).toLocaleString()}
+                    {(generatedContents || []).reduce((sum, content) => sum + ((content?.content?.split(' ').length) || 0), 0).toLocaleString()}
                   </span>
                 </div>
               </div>
@@ -214,11 +219,11 @@ const ContentHistory = ({ contents, onBack }) => {
                         </div>
                       </div>
                       <p className="text-gray-600 text-sm line-clamp-2 mb-3">
-                        {content.content.substring(0, 120)}...
+                        {content.content ? content.content.substring(0, 120) : ''}...
                       </p>
                       <div className="flex items-center justify-between text-xs text-gray-500">
                         <span>{formatDate(content.timestamp)}</span>
-                        <span>{content.content.split(' ').length} words</span>
+                        <span>{content.content ? content.content.split(' ').length : 0} words</span>
                       </div>
                     </div>
                   ))}
@@ -252,14 +257,14 @@ const ContentHistory = ({ contents, onBack }) => {
 
                       <div className="prose prose-sm max-w-none mb-6">
                         <div className="bg-gray-50 rounded-lg p-4 max-h-96 overflow-y-auto whitespace-pre-wrap text-sm">
-                          {selectedContent.content}
+                          {selectedContent.content || ''}
                         </div>
                       </div>
 
                       <div className="flex items-center justify-between pt-4 border-t border-gray-200">
                         <div className="text-sm text-gray-500">
                           <p>Generated: {formatDate(selectedContent.timestamp)}</p>
-                          <p>{selectedContent.content.split(' ').length} words</p>
+                          <p>{selectedContent.content ? selectedContent.content.split(' ').length : 0} words</p>
                         </div>
                         <div className="flex space-x-2">
                           <button
