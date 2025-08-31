@@ -154,7 +154,7 @@ const generateContent = async (req, res) => {
     console.log('Generating content with Requesty API for:', topic);
 
     const response = await axios.post('https://router.requesty.ai/v1/chat/completions', {
-      model: 'gpt-3.5-turbo',
+      model: 'google/gemini-2.5-flash',
       messages: [
         {
           role: 'user',
@@ -223,7 +223,7 @@ const generateCampaign = async (req, res) => {
     console.log('Generating campaign with Requesty API for:', topic);
 
     const response = await axios.post('https://router.requesty.ai/v1/chat/completions', {
-      model: 'gpt-3.5-turbo',
+      model: 'google/gemini-2.5-flash',
       messages: [
         {
           role: 'user',
