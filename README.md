@@ -1,6 +1,8 @@
-# 🚀 AI Content Generator - Roo Hackathon 2025 Submission
+# 🧞‍♂️ AI Content Genie - Roo Hackathon 2025 Submission
 
-> Our submission for the Roo Hackathon 2025. An AI-powered content generation platform that leverages large language models to streamline content creation.
+![AI Content Genie](ai-content-generator/frontend/public/genie.png)
+
+> Unleash your inner AI Content Genie! Our submission for the Roo Hackathon 2025 is an AI-powered content generation platform that leverages large language models to streamline content creation.
 
 [![React](https://img.shields.io/badge/React-18.2.0-blue.svg)](https://reactjs.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-Latest-green.svg)](https://nodejs.org/)
