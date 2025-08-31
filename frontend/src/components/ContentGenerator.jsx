@@ -1,6 +1,16 @@
 import React, { useState } from 'react';
 
-const ContentGenerator = ({ onContentGenerated }) => {
+const ContentGenera      const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
+      const response = await fetch(`${API_URL}/api/content/generate`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contentType: enhancedPrompt,
+          topic: topic,
+        }),
+      });nContentGenerated }) => {
   const [contentType, setContentType] = useState('');
   const [topic, setTopic] = useState('');
   const [tone, setTone] = useState('professional');
