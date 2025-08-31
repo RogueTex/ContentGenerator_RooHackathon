@@ -1,4 +1,5 @@
 import React from 'react';
+import genieIcon from '../assets/genie-icon.png'; // Import the new icon
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -10,10 +11,8 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <div className="flex items-center space-x-3 mb-4">
-              <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl p-2 shadow-lg">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
+              <div className="flex-shrink-0">
+                <img className="w-10 h-10" src={genieIcon} alt="Genie Icon" />
               </div>
               <div>
                 <h3 className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">

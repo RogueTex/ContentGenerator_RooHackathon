@@ -1,5 +1,4 @@
 import React from 'react';
-import genieImage from '../assets/genie.png'; // Import the image
 
 const Hero = () => {
   return (
@@ -15,12 +14,7 @@ const Hero = () => {
             </div>
           </div>
           
-          {/* Centered Genie Image */}
-          <div className="flex justify-center mb-6">
-            <img src={genieImage} alt="AI Content Genie" className="w-48 h-48 object-contain" />
-          </div>
-          
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-800 mb-6">
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-800 mb-6 pt-12">
             Unleash your
             <span className="block bg-gradient-to-r from-indigo-600 via-purple-600 to-teal-500 bg-clip-text text-transparent">
               Content Genie

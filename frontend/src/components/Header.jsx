@@ -1,5 +1,5 @@
 import React from 'react';
-import genieImage from '../assets/genie.png'; // Import the image
+import genieIcon from '../assets/genie-icon.png'; // Import the new icon
 
 const Header = () => {
   return (
@@ -9,7 +9,7 @@ const Header = () => {
           {/* Logo */}
           <div className="flex items-center space-x-3">
             <div className="flex-shrink-0">
-              <img className="w-10 h-10" src={genieImage} alt="Genie Logo" />
+              <img className="w-10 h-10" src={genieIcon} alt="Genie Icon" />
             </div>
             <div>
               <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
