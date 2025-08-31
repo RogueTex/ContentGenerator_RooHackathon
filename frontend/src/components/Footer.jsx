@@ -21,16 +21,23 @@ const Footer = () => {
                 </h3>
               </div>
             </div>
-            <p className="text-gray-300 max-w-md leading-relaxed mb-6">
-              Built by Raghu, Tommy and Gabriel from UT Austin.
+            <p className="text-gray-300 max-w-md leading-relaxed mb-4">
+              Built with ❤️ by Raghu, Gabriel, and Tommy.
             </p>
-            <p className="text-gray-300 max-w-md leading-relaxed mb-6">
+            <p className="text-gray-300 max-w-md leading-relaxed mb-4">
+              <a href="https://github.com/RogueTex/ContentGenerator_RooHackathon" target="_blank" rel="noopener noreferrer" className="text-primary-400 hover:underline">
+                View Source Code on GitHub
+              </a>
+            </p>
+            <p className="text-gray-300 max-w-md leading-relaxed">
               Contact: <a href="mailto:raghu.s@utexas.edu" className="text-primary-400 hover:underline">raghu.s@utexas.edu</a>
             </p>
           </div>
 
-          {/* Empty div to balance grid layout if needed, or remove if not */}
+          {/* Links or other content can go here */}
           <div></div>
+
+          {/* Social links or other content can go here */}
           <div></div>
         </div>
 
