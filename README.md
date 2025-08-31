@@ -1,45 +1,60 @@
 # 🚀 AI Content Generator - Roo Hackathon 2025 Submission
 
-> **An AI-powered content generation platform built for the Roo Hackathon 2025. Powered by Requesty.**
+> Our submission for the Roo Hackathon 2025. An AI-powered content generation platform that leverages large language models to streamline content creation.
 
 [![React](https://img.shields.io/badge/React-18.2.0-blue.svg)](https://reactjs.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-Latest-green.svg)](https://nodejs.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.3.3-blue.svg)](https://tailwindcss.com/)
-[![Requesty](https://img.shields.io/badge/Powered_by-Requesty-orange.svg)](https://requesty.com/)
+[![Requesty](https://img.shields.io/badge/Powered_by-Requesty-orange.svg)](https://requesty.ai/)
+[![Google Gemini](https://img.shields.io/badge/Model-Google_Gemini-blue.svg)](https://deepmind.google/technologies/gemini/)
 
-## 🎯 **Project Overview**
+## 🌐 Live Demo
 
-This project is a full-stack AI content generator built for the Roo Hackathon 2025. It leverages the power of Requesty's API, which provides access to state-of-the-art models like Google's Gemini, to generate high-quality content across various formats and styles. The goal was to build a polished, functional, and impressive application within the hackathon timeframe, with a strong focus on user experience and creative AI application.
+The application is hosted on GitHub Pages. You can access the live demo here:
 
-## ✨ **Core Features**
+**[https://roguetex.github.io/ContentGenerator_RooHackathon/](https://roguetex.github.io/ContentGenerator_RooHackathon/)**
 
-- **8+ Content Types**: Generate blog posts, social media updates, emails, and more.
-- **Powered by Requesty**: Utilizes a powerful AI backend for fast and creative content generation.
+## 🎯 Problem Statement
+
+In the fast-paced digital world, content is king. However, creating high-quality, engaging, and diverse content consistently is a major challenge for marketers, bloggers, and businesses. This process is often time-consuming, requires significant creative effort, and can lead to burnout. There is a need for a tool that can accelerate the creative process, provide inspiration, and automate the generation of various content types without sacrificing quality.
+
+## ✨ Solution
+
+The AI Content Generator is designed to solve this problem. It provides a user-friendly interface where users can select from over eight different content types, provide a topic and optional keywords, and receive high-quality, formatted content in seconds!
+
+By integrating with **Requesty**, the application gains access to **Google's Gemini 2.5 Flash**. This allows the tool to generate nuanced, context-aware, and creative content tailored to the user's specific needs, from professional blog posts to catchy social media updates.
+
+### Core Features
+
+- **8+ Content Types**: Generate blog posts, social media updates, emails, ad copy, and more.
+- **Powered by Requesty & Google Gemini**: Utilizes a powerful AI backend for fast, creative, and high-quality content generation.
 - **Content History**: All generated content is saved locally, allowing users to review and reuse past generations.
-- **Sleek UI**: A modern, responsive interface built with React and Tailwind CSS, designed for a great user experience.
-- **One-click Copy**: Easily copy generated content to your clipboard.
+- **Markdown Rendering**: Displays generated content with rich formatting (headings, lists, bolding) for a better user experience.
+- **Sleek UI**: A modern, responsive interface built with React and Tailwind CSS.
+- **One-click Copy**: Easily copy the raw Markdown of generated content to your clipboard.
 
-## �️ **Tech Stack**
+## 🛠️ Tech Stack
 
-- **Frontend**: React, Vite, Tailwind CSS
+- **Frontend**: React, Vite, Tailwind CSS, `react-markdown`
 - **Backend**: Node.js, Express.js
-- **AI**: Requesty API (via OpenAI compatible endpoint)
+- **AI API**: Requesty (providing access to Google Gemini)
+- **Deployment**: GitHub Actions for CI/CD, GitHub Pages for hosting the frontend.
 
-## 🚀 **Getting Started**
+## 🚀 Getting Started Locally
 
-To run this project locally, follow these steps:
+To run this project on your local machine, follow these steps:
 
 ### Prerequisites
 - Node.js (v18 or higher)
 - npm
 
-### 1. **Clone the Repository**
+### 1. Clone the Repository
 ```bash
 git clone https://github.com/RogueTex/ContentGenerator_RooHackathon.git
 cd ContentGenerator_RooHackathon/ai-content-generator
 ```
 
-### 2. **Install Dependencies**
+### 2. Install Dependencies
 ```bash
 # Install backend dependencies
 cd backend
@@ -50,20 +65,20 @@ cd ../frontend
 npm install
 ```
 
-### 3. **Configure Environment**
-In the `backend` directory, create a `.env` file and add your Requesty API key. If you don't have one, the app will run in **Demo Mode** with sample data.
+### 3. Configure Environment
+In the `backend` directory, create a `.env` file and add your Requesty API key. If you do not provide a key, the application will run in **Demo Mode** and serve sample content.
 
-```
-GOOGLE_GEMINI_API_KEY=your_google_gemini_api_key_here
+```env
+REQUESTY_API_KEY="your_requesty_api_key_here"
 PORT=3001
 ```
 
-### 4. **Run the Application**
+### 4. Run the Application
 
 **Terminal 1 - Start the Backend:**
 ```bash
 cd backend
-npm run dev
+npm start
 # Server will run on http://localhost:3001
 ```
 
@@ -71,34 +86,10 @@ npm run dev
 ```bash
 cd frontend
 npm run dev
-# Application will be available at http://localhost:5174
+# Application will be available at http://localhost:5173 (or another port if 5173 is busy)
 ```
 
-│   │   └── contentRoutes.js       # API routes
-│   ├── server.js                  # Express server setup
-│   ├── package.json               # Backend dependencies
-│   └── .env                       # Environment variables
-├── frontend/
-│   ├── src/
-│   │   ├── components/            # React components
-│   │   │   ├── Header.jsx
-│   │   │   ├── Hero.jsx
-│   │   │   ├── ContentGenerator.jsx
-│   │   │   ├── Features.jsx
-│   │   │   ├── ContentHistory.jsx
-│   │   │   └── Footer.jsx
-│   │   ├── App.jsx                # Main app component
-│   │   ├── main.jsx               # Entry point
-│   │   └── index.css              # Global styles
-│   ├── public/                    # Static assets
-│   ├── package.json               # Frontend dependencies
-│   ├── vite.config.js             # Vite configuration
-│   ├── tailwind.config.js         # Tailwind CSS config
-│   └── postcss.config.js          # PostCSS config
-└── README.md                      # This file
-```
-
-## 🔑 **API Configuration**
+## 🔑 API Configuration
 
 1. Get your Requesty API key from [Requesty](https://requesty.ai/)
 2. Add it to your `.env` file in the `backend` directory:
@@ -107,7 +98,7 @@ REQUESTY_API_KEY=your_actual_requesty_key_here
 PORT=3001
 ```
 
-## 📊 **Content Types Supported**
+## 📊 Content Types Supported
 
 | Type | Icon | Description | Use Case |
 |------|------|-------------|----------|
@@ -120,9 +111,9 @@ PORT=3001
 | Video Script | 🎬 | Engaging video content | Video marketing |
 | Landing Page | 🌐 | Conversion-focused copy | Sales funnels |
 
-## 🎨 **Customization Options**
+## 🎨 Customization Options
 
-### **Tones Available:**
+### Tones Available:
 - Professional (formal, business-like)
 - Casual (relaxed, friendly)
 - Enthusiastic (energetic, exciting)
@@ -130,12 +121,12 @@ PORT=3001
 - Persuasive (convincing, compelling)
 - Humorous (light-hearted, funny)
 
-### **Content Lengths:**
+### Content Lengths:
 - Short: 100-200 words
 - Medium: 300-500 words
 - Long: 600-1000 words
 
-## 🚀 **Deployment Ready**
+## 🚀 Deployment Ready
 
 This application is ready for deployment on:
 - **Frontend**: Vercel, Netlify, or any static hosting
@@ -148,37 +139,4 @@ PORT=3001
 NODE_ENV=production
 ```
 
-## 🏆 **Hackathon Submission Highlights**
-
-### **Innovation Score: 10/10**
-- Cutting-edge AI integration with Requesty (powered by Google Gemini)
-- Advanced prompt engineering for superior content quality
-- Smart content management and history features
-
-### **Technical Implementation: 10/10**
-- Full-stack application with modern technologies
-- Clean architecture and maintainable code
-- Production-ready with proper error handling
-
-### **User Experience: 10/10**
-- Intuitive, professional interface
-- Fast, responsive interactions
-- Mobile-first, accessible design
-
-### **Completeness: 10/10**
-- Fully functional application
-- Comprehensive feature set
-- Professional documentation and setup
-
-## 📞 **Support**
-
-For questions or issues during the hackathon demo:
-- Check the console for any API key errors
-- Ensure both backend and frontend servers are running
-- Verify your Requesty API key is valid
-
----
-
 **Built with ❤️ for Roo Hackathon 2025**
-
-*Triggering a new deployment.*
