@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 const ContentGenerator = ({ onContentGenerated }) => {
   const [contentType, setContentType] = useState('');
   const [topic, setTopic] = useState('');
+  const [keywords, setKeywords] = useState('');
   const [tone, setTone] = useState('professional');
   const [length, setLength] = useState('medium');
   const [generatedContent, setGeneratedContent] = useState('');
@@ -48,14 +49,22 @@ const ContentGenerator = ({ onContentGenerated }) => {
     setGeneratedContent('');
 
     try {
-      const enhancedPrompt = `Create a ${length} ${contentType.replace('-', ' ')} about "${topic}" with a ${tone} tone. 
-      
-      Requirements:
-      - Length: ${lengths.find(l => l.value === length)?.description}
-      - Tone: ${tone}
-      - Format: Well-structured with appropriate headings and paragraphs
-      - Make it engaging and relevant to the target audience
-      - Include actionable insights where appropriate`;
+      const enhancedPrompt = `As a world-class content strategist for a leading tech publication, your task is to generate a compelling and well-structured piece of content.
+
+Content Type: ${contentType.replace('-', ' ')}
+Primary Topic: "${topic}"
+${keywords ? `Key Concepts/Keywords to include: ${keywords}` : ''}
+Tone: ${tone}
+Length: ${lengths.find(l => l.value === length)?.description}
+
+Your output must be:
+- Engaging and captivating, designed to impress a discerning audience.
+- Well-structured with clear headings, subheadings, and paragraphs. Use bullet points or numbered lists where appropriate to enhance readability.
+- Professional in tone and highly relevant to the specified topic and keywords.
+- Optimized for clarity, impact, and shareability.
+- Ensure the content is factually accurate (where applicable) and provides real value to the reader.
+
+Generate the content now.`;
 
       const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
       const response = await fetch(`${API_URL}/api/content/generate`, {
@@ -66,6 +75,7 @@ const ContentGenerator = ({ onContentGenerated }) => {
         body: JSON.stringify({
           contentType: enhancedPrompt,
           topic: topic,
+          keywords: keywords,
         }),
       });
 
@@ -81,6 +91,7 @@ const ContentGenerator = ({ onContentGenerated }) => {
         onContentGenerated({
           contentType: contentType,
           topic: topic,
+          keywords: keywords,
           tone: tone,
           length: length,
           content: data.generatedContent,
@@ -162,6 +173,21 @@ const ContentGenerator = ({ onContentGenerated }) => {
                     placeholder="Enter your topic or provide a brief description of what you want to write about..."
                     rows={4}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none transition-all duration-200"
+                  />
+                </div>
+
+                {/* Keywords Input */}
+                <div>
+                  <label htmlFor="keywords" className="block text-sm font-medium text-gray-700 mb-2">
+                    Keywords <span className="text-gray-500">(optional, comma-separated)</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="keywords"
+                    value={keywords}
+                    onChange={(e) => setKeywords(e.target.value)}
+                    placeholder="e.g., sustainable energy, solar power, future tech"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"
                   />
                 </div>
 
