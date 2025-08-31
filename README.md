@@ -11,14 +11,6 @@
 
 This project is a full-stack AI content generator built for the Roo Hackathon 2025. It leverages the power of Requesty's API, which provides access to state-of-the-art models like Google's Gemini, to generate high-quality content across various formats and styles. The goal was to build a polished, functional, and impressive application within the hackathon timeframe, with a strong focus on user experience and creative AI application.
 
-## 🏆 **Hackathon Goals**
-
-This project is competing for the following prizes:
-
-- **Best UI/UX**: We focused on creating a clean, intuitive, and responsive interface that makes a powerful tool feel simple and accessible to everyone.
-- **Best AI Hack**: By integrating a powerful AI model for a practical use case and building a robust full-stack application around it, we believe this project represents a creative and technically impressive AI hack.
-- **Best Use of Gemini API**: This project uses the Requesty API, which can be powered by Google's Gemini, to generate creative content and showcases the power of large language models in a real-world application.
-
 ## ✨ **Core Features**
 
 - **8+ Content Types**: Generate blog posts, social media updates, emails, and more.
