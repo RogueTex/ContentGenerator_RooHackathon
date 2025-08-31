@@ -16,7 +16,8 @@ const CampaignGenerator = () => {
     setLoading(true);
     setCampaign(null);
     try {
-      const response = await axios.post('/api/generate-campaign', { topic });
+      const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
+      const response = await axios.post(`${API_URL}/api/content/generate-campaign`, { topic });
       setCampaign(response.data.generatedCampaign);
     } catch (err) {
       setError('Failed to generate campaign. Please try again.');

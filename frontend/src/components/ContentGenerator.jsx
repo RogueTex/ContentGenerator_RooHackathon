@@ -58,7 +58,8 @@ const ContentGenerator = ({ onContentGenerated }) => {
       - Make it engaging and relevant to the target audience
       - Include actionable insights where appropriate`;
 
-      const response = await fetch('/api/content/generate', {
+      const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
+      const response = await fetch(`${API_URL}/api/content/generate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
