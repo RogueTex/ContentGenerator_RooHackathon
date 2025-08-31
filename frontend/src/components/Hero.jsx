@@ -14,6 +14,7 @@ const Hero = () => {
             </div>
           </div>
           
+          {/* Centered Genie Image */}
           <div className="flex justify-center mb-6">
             <img src="/genie.png" alt="AI Content Genie" className="w-48 h-48 object-contain" />
           </div>
