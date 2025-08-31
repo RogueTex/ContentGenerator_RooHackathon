@@ -253,7 +253,10 @@ const generateCampaign = async (req, res) => {
     console.log(`Successfully generated campaign for ${topic}`);
     
     // Attempt to parse the JSON from the response
-    const generatedCampaign = JSON.parse(generatedText);
+    let jsonStr = generatedText.trim();
+    // Remove triple backticks (and language specifier if present)
+    jsonStr = jsonStr.replace(/^```(?:json)?\s*|\s*```$/g, '').trim();
+    const generatedCampaign = JSON.parse(jsonStr);
     res.status(200).json({ generatedCampaign });
 
   } catch (error) {
